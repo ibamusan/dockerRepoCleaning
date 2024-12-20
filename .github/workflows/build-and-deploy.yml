@@ -32,7 +32,8 @@ jobs:
       # Step 5: Build the Docker Image
       - name: Build Docker image
         run: |
-          docker build -t us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/app:0.1 .
+          docker build -t us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/app:0.1 -f Dockerfile.txt .
+          - name: Build Docker Image
 
       # Step 6: Push Docker Image to Artifact Registry
       - name: Push Docker image
