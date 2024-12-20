@@ -1,0 +1,17 @@
+# INPUT_BUCKET="vosyncore-transcription"
+# INPUT_AUDIO_BLOB="vosyncore-transcription/Diarization-test/Harris_takes_on_Fox_News_during_heated_interview_transcription.txt"
+OUTPUT_BUCKET="vosyncore-transcription-clean"
+OUTPUT_TRANSCRIPTION_BLOB="Diarization-clean/"
+INPUT_PATH="gs://vosyncore-transcription/Diarization-test/Harris_takes_on_Fox_News_during_heated_interview_transcription.txt"
+
+MODEL_BUCKET="vosyncore-transcription-dev"
+MODEL_PATH_PREFIX="t5-flan/"
+
+ERROR_LOGS_BUCKET="vosyncore-transcription-clean"
+ERROR_LOGS_PREFIX="Logs-clean"
+
+HF_TOKEN="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"
+
+PROCESS_MODE="parallel"  
+WORKERS_COUNT="5"
+  
