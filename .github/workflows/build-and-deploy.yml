@@ -32,12 +32,12 @@ jobs:
       # Step 5: Build the Docker Image
       - name: Build Docker image
         run: |
-          docker build -t us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/inferencecleaning:0.1 .
+          docker build -t us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/app:0.1 .
 
       # Step 6: Push Docker Image to Artifact Registry
       - name: Push Docker image
         run: |
-          docker push us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/inferencecleaning:0.1
+          docker push us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/app:0.1
 
       # Step 7: Confirm successful deployment
       - name: Verify Image in Artifact Registry
