@@ -18,5 +18,5 @@ COPY . /app/
 EXPOSE 8081
 
 # Command to run the Flask app
-CMD ["python", "flaskinferencecleaning.py"]
+CMD ["python", "/app/flaskinferencecleaning.py"]
 
