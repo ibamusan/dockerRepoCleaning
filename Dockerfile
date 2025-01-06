@@ -5,18 +5,25 @@ FROM python:3.9-slim
 WORKDIR /app
 
 # Copy the current directory contents into the container at /app
-ADD . /app
-
-# Install the necessary Python packages
-RUN apt-get update && apt-get install -y ffmpeg
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Copy the application files to the working directory
 COPY . /app/
+
+# Install the necessary dependencies
+RUN apt-get update && apt-get install -y ffmpeg && apt-get clean
+
+# Create a virtual environment (optional but recommended)
+RUN python -m venv /venv
+ENV PATH="/venv/bin:$PATH"
+
+# Install the required Python packages
+RUN pip install --no-cache-dir -r requirements.txt
 
 # Expose the port the app runs on
 EXPOSE 8081
 
+# Set the environment variable for Flask
+ENV FLASK_APP=flaskinferencecleaning.py
+
 # Command to run the Flask app
-CMD ["python", "/app/flaskinferencecleaning.py"]
+CMD ["flask", "run", "--host=0.0.0.0", "--port=8081"]
+
 
