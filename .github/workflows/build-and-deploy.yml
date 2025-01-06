@@ -1,4 +1,4 @@
-name: Build and Deploy to Google Artifact Registry
+name: Build, Deploy to Google Artifact Registry, and Deploy to Cloud Run
 
 on:
   push:
@@ -18,7 +18,7 @@ jobs:
       - name: Setup Google Cloud SDK
         uses: google-github-actions/auth@v1
         with:
-          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS_JSON }} 
+          credentials_json: ${{ secrets.GOOGLE_CREDENTIALS_JSON }}
 
       # Step 3: Setup Docker
       - name: Setup Docker
@@ -39,8 +39,17 @@ jobs:
         run: |
           docker push us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/flaskinferencecleaning:0.1
 
-      # Step 7: Confirm successful deployment
-      - name: Verify Image in Artifact Registry
+      # Step 7: Deploy Docker image to Google Cloud Run
+      - name: Deploy to Google Cloud Run
         run: |
-          gcloud artifacts docker images list \
-            us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer
+          gcloud run deploy flaskinferencecleaning \
+            --image us-central1-docker.pkg.dev/core-dev-435517/transcription-pioneer/flaskinferencecleaning:0.1 \
+            --platform managed \
+            --region us-central1 \
+            --allow-unauthenticated
+
+      # Step 8: Retrieve and display the deployed URL (optional)
+      - name: Get Deployed URL
+        run: |
+          URL=$(gcloud run services describe flaskinferencecleaning --platform managed --region us-central1 --format 'value(status.url)')
+          echo "Deployed Service URL: $URL"
