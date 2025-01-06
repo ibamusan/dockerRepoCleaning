@@ -4,7 +4,7 @@ import re
 import nltk
 from google.cloud import storage
 from concurrent.futures import ThreadPoolExecutor, as_completed
-from tqdm import tqdm  # Import tqdm for the progress bar
+from tqdm import tqdm
 
 # Initialize logger
 logging.basicConfig(level=logging.INFO)
@@ -28,19 +28,18 @@ def load_environment_variables(file_path):
                 os.environ[key] = value.strip('"')
                 logging.debug(f"Set environment variable {key}")
 
-# Load the environment variables from the file
-env_file_path = '/home/jupyter/Prod/cleaning_env_var.txt'
+# Dynamically locate the environment file
+current_dir = os.path.dirname(os.path.abspath(__file__))
+env_file_path = os.path.join(current_dir, "cleaning_env_var.txt")
 
 load_environment_variables(env_file_path)
 
 # Fetch the environment variables
-# input_bucket = os.getenv('INPUT_BUCKET')
-# input_prefix = os.getenv('INPUT_AUDIO_BLOB', 'Diarization-test/')
 output_bucket = os.getenv('OUTPUT_BUCKET')
 output_prefix = os.getenv('OUTPUT_TRANSCRIPTION_BLOB', 'Diarization-clean/')
 input_path = os.getenv("INPUT_PATH")
 error_logs_bucket = os.getenv('ERROR_LOGS_BUCKET')
-workers_count = int(os.getenv("WORKERS_COUNT", 5))  # Set default to 5
+workers_count = int(os.getenv("WORKERS_COUNT", 5))
 
 # Specify local directory to store the text files temporarily
 local_dir = "/tmp/text_files/"
